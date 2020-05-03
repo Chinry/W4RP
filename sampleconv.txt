@@ -1,0 +1,1 @@
+ffmpeg -i sd1.wav -sample_fmt s16 -ar 12000 snare.wav
