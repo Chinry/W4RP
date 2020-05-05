@@ -1,1 +1,13 @@
+# for converting wav to desired wave rate
 ffmpeg -i sd1.wav -sample_fmt s16 -ar 12000 snare.wav
+
+# padding out rom
+dd if=/dev/zero of=tri.bin bs=1 count=1 seek=64K
+
+or 
+
+python3 pad_output.py ../tri.bin
+
+# burn eprom
+sudo minipro -p "M27C512@DIP28" -w tri.bin
+

@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     out[2] = (0x000000ff  & (samples>>8));
     out[3] = (0x000000ff  & (samples>>12));
 
-    fprintf(output, "%s_size:\n.byte 0x%02x,0x%02x,0x%02x,0x%02x\n%s:\n", argv[3], out[0], out[1], out[2], out[3], argv[3]);
+    printf("%s_size:\n.byte 0x%02x,0x%02x,0x%02x,0x%02x\n%s:\n", argv[3], out[0], out[1], out[2], out[3], argv[3]);
 
 
     for(u_int32_t i = 0; i < size; i++)
@@ -64,14 +64,10 @@ int main(int argc, char **argv)
        input_sample_bigger = input_sample_bigger + 32768;
        output_sample = (u_int16_t) input_sample_bigger;
        output_sample = (0x0fff & (output_sample>>4));
-       printf("hex %#010x\n", output_sample);
        out[0] = (unsigned char)(0x00ff & output_sample);
-       printf("char 0 %i\n", output_sample);
        out[1] = 16 + (unsigned char)(0x00ff & (output_sample>>8));
-       printf("char 1 %i\n", output_sample);
-       fprintf(output, ".byte 0x%02x,0x%02x\n", out[1], out[0]);
-       fprintf(stdout, ".byte 0x%02x,0x%02x\n", out[0], out[1]);
-       printf("%i\n", loop);
+       fputc(out[1], output);
+       fputc(out[0], output);
        loop++;
     }
     fclose(input);
